@@ -1,0 +1,40 @@
+
+mtx zed
+660.445	0	650.905
+0	660.579	327.352
+0	0	1
+
+
+distortion zed
+-0.00174692	-0.0174969	-0.000182398	-0.00751098	0.0219687
+
+
+mtx iphone
+3513.23	0	1542.31
+0	3519.98	2089.89
+0	0	1
+
+
+distortion iphone
+0.293461	-1.3054	0.0132138	0.00104743	2.50754
+
+
+Python: cv.FindExtrinsicCameraParams2(objectPoints, imagePoints, cameraMatrix, distCoeffs, rvec, tvec, useExtrinsicGuess=0) → None
+Parameters:	
+objectPoints – Array of object points in the object coordinate space, 3xN/Nx3 1-channel or 1xN/Nx1 3-channel, where N is the number of points. vector<Point3f> can be also passed here.
+imagePoints – Array of corresponding image points, 2xN/Nx2 1-channel or 1xN/Nx1 2-channel, where N is the number of points. vector<Point2f> can be also passed here.
+cameraMatrix – Input camera matrix  A = \vecthreethree{fx}{0}{cx}{0}{fy}{cy}{0}{0}{1} .
+distCoeffs – Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.
+rvec – Output rotation vector (see Rodrigues() ) that, together with tvec , brings points from the model coordinate system to the camera coordinate system.
+tvec – Output translation vector.
+useExtrinsicGuess – If true (1), the function uses the provided rvec and tvec values as initial approximations of the rotation and translation vectors, respectively, and further optimizes them.
+flags –
+Method for solving a PnP problem:
+
+CV_ITERATIVE Iterative method is based on Levenberg-Marquardt optimization. In this case the function finds such a pose that minimizes reprojection error, that is the sum of squared distances between the observed projections imagePoints and the projected (using projectPoints() ) objectPoints .
+CV_P3P Method is based on the paper of X.S. Gao, X.-R. Hou, J. Tang, H.-F. Chang “Complete Solution Classification for the Perspective-Three-Point Problem”. In this case the function requires exactly four object and image points.
+CV_EPNP Method has been introduced by F.Moreno-Noguer, V.Lepetit and P.Fua in the paper “EPnP: Efficient Perspective-n-Point Camera Pose Estimation”.
+The function estimates the object pose given a set of object points, their corresponding image projections, as well as the camera matrix and the distortion coefficients.
+
+Note
+An example of how to use solvePNP for planar augmented reality can be found at opencv_source_code/samples/python2/plane_ar.py
